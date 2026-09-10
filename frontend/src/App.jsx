@@ -32,7 +32,9 @@ function App() {
   ];
 
   const scatter3DData = [
-    { x: vehicles.map(d => d.box_center_x), y: vehicles.map(d => d.box_center_y), z: vehicles.map(d => d.box_center_z), mode: 'markers', type: 'scatter3d', name: 'Vehículos', marker: { color: '#4ade80', size: 3, opacity: 0.8 } },
+    // Agregamos el "Ego-Vehicle" (Nosotros) en el centro para dar contexto
+    { x: [0], y: [0], z: [0], mode: 'markers', type: 'scatter3d', name: '📍 Nuestro Auto (Waymo)', marker: { color: '#3b82f6', size: 8, symbol: 'diamond' } },
+    { x: vehicles.map(d => d.box_center_x), y: vehicles.map(d => d.box_center_y), z: vehicles.map(d => d.box_center_z), mode: 'markers', type: 'scatter3d', name: 'Otros Vehículos', marker: { color: '#4ade80', size: 3, opacity: 0.8 } },
     { x: pedestrians.map(d => d.box_center_x), y: pedestrians.map(d => d.box_center_y), z: pedestrians.map(d => d.box_center_z), mode: 'markers', type: 'scatter3d', name: 'Peatones', marker: { color: '#f87171', size: 4, opacity: 0.8 } }
   ];
 
@@ -82,12 +84,19 @@ function App() {
       )
     },
     {
-      title: "4. Nube de Puntos Espacial (3D LiDAR)",
-      description: "Representación tridimensional interactiva (X, Y, Z) de las cajas delimitadoras (Bounding Boxes). Recrea la visión real del mundo que tiene el láser LiDAR del vehículo autónomo Waymo. Puedes usar el mouse para rotar el plano, acercarte (scroll) e inspeccionar dónde se detectó físicamente cada objeto en la calle.",
+      title: "4. Nube de Puntos Espacial (La Visión del Vehículo)",
+      description: "Imagina que eres el vehículo autónomo. El rombo azul en la coordenada (0, 0, 0) es nuestro propio auto. El resto de puntos verdes y rojos son los vehículos y peatones reales que el sensor láser detectó a nuestro alrededor (en metros). Eje X: Adelante/Atrás, Eje Y: Izquierda/Derecha, Eje Z: Altura desde el suelo. (¡Rota el gráfico con tu mouse!)",
       chart: (
         <Plot
           data={scatter3DData}
-          layout={{ width: 800, height: 400, paper_bgcolor: '#2a2a2a', font: { color: '#ccc' }, margin: { t: 0, b: 0, l: 0, r: 0 }, scene: { xaxis: { title: 'X' }, yaxis: { title: 'Y' }, zaxis: { title: 'Z' } } }}
+          layout={{ 
+            width: 800, height: 400, paper_bgcolor: '#2a2a2a', font: { color: '#ccc' }, margin: { t: 0, b: 0, l: 0, r: 0 }, 
+            scene: { 
+              xaxis: { title: 'X (Adelante/Atrás m)' }, 
+              yaxis: { title: 'Y (Izquierda/Derecha m)' }, 
+              zaxis: { title: 'Z (Altura)' } 
+            } 
+          }}
         />
       )
     }
