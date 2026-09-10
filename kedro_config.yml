@@ -1,0 +1,3 @@
+project_name: Waymo Backend
+repo_name: backend
+python_package: waymo_backend

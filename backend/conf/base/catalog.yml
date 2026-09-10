@@ -1,0 +1,13 @@
+raw_waymo_data:
+  type: pandas.ParquetDataset
+  filepath: data/01_raw/detecciones_reales.parquet
+
+clean_waymo_data:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/clean_waymo_data.parquet
+
+frontend_waymo_json:
+  type: pandas.JSONDataset
+  filepath: data/03_primary/waymo_frontend.json
+  save_args:
+    orient: records
