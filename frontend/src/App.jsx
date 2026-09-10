@@ -20,11 +20,8 @@ function App() {
     { name: 'Ciclistas', Cantidad: cyclists.length, fill: '#60a5fa' }
   ];
 
-  const radarData = [
-    { subject: 'Largo Promedio (m)', Vehículos: parseFloat(calcAvg(vehicles, 'box_length')), Peatones: parseFloat(calcAvg(pedestrians, 'box_length')) * 5, fullMark: 5 },
-    { subject: 'Ancho Promedio (m)', Vehículos: parseFloat(calcAvg(vehicles, 'box_width')), Peatones: parseFloat(calcAvg(pedestrians, 'box_width')) * 5, fullMark: 3 },
-    { subject: 'Altura Promedio (m)', Vehículos: parseFloat(calcAvg(vehicles, 'box_height')), Peatones: parseFloat(calcAvg(pedestrians, 'box_height')) * 5, fullMark: 3 }
-  ];
+  const scatter2DDataVehicles = vehicles.map(d => ({ x: d.box_length, y: d.box_width, type: 'Vehículo' }));
+  const scatter2DDataPedestrians = pedestrians.map(d => ({ x: d.box_length, y: d.box_width, type: 'Peatón' }));
 
   const boxPlotData = [
     { y: vehicles.map(d => d.box_length), type: 'box', name: 'Vehículos', marker: { color: '#4ade80' } },
@@ -67,20 +64,19 @@ function App() {
       )
     },
     {
-      title: "3. Perfil Geométrico Multidimensional (Radar)",
-      description: "El Gráfico de Radar compara el 'Perfil o Firma Geométrica' promedio entre Vehículos y Peatones cruzando simultáneamente Largo, Ancho y Altura. Esta vista revela que las clases son linealmente separables gracias a sus dimensiones físicas espaciales. (Nota: La firma de los peatones se ha escalado x5 para facilitar su visualización frente al volumen masivo de los vehículos).",
+      title: "3. Clústers y Separabilidad (Largo vs Ancho)",
+      description: "Este Gráfico de Dispersión 2D es el favorito de los algoritmos de clasificación. Compara el Largo (X) vs el Ancho (Y) de cada bounding box. Revela algo fundamental: los Vehículos (verde) y los Peatones (rojo) forman dos 'clústers' completamente separados y distintos. Esto significa que las clases son linealmente separables por sus dimensiones.",
       chart: (
-        <ResponsiveContainer width="100%" height={400}>
-          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-            <PolarGrid stroke="#555" />
-            <PolarAngleAxis dataKey="subject" stroke="#ccc" />
-            <PolarRadiusAxis angle={30} domain={[0, 15]} tick={false} axisLine={false} />
-            <Radar name="Vehículos" dataKey="Vehículos" stroke="#4ade80" fill="#4ade80" fillOpacity={0.5} />
-            <Radar name="Peatones (Escalado x5)" dataKey="Peatones" stroke="#f87171" fill="#f87171" fillOpacity={0.5} />
-            <Legend />
-            <RechartsTooltip contentStyle={{ backgroundColor: '#333', border: 'none' }} />
-          </RadarChart>
-        </ResponsiveContainer>
+        <Plot
+          data={[
+            { x: scatter2DDataVehicles.map(d => d.x), y: scatter2DDataVehicles.map(d => d.y), mode: 'markers', type: 'scatter', name: 'Vehículos', marker: { color: '#4ade80', size: 6, opacity: 0.7 } },
+            { x: scatter2DDataPedestrians.map(d => d.x), y: scatter2DDataPedestrians.map(d => d.y), mode: 'markers', type: 'scatter', name: 'Peatones', marker: { color: '#f87171', size: 6, opacity: 0.9 } }
+          ]}
+          layout={{ 
+            width: 800, height: 400, paper_bgcolor: '#2a2a2a', plot_bgcolor: '#2a2a2a', font: { color: '#ccc' }, margin: { t: 20, b: 40, l: 50, r: 20 },
+            xaxis: { title: 'Largo de la Caja (m)' }, yaxis: { title: 'Ancho de la Caja (m)' }
+          }}
+        />
       )
     },
     {
