@@ -44,13 +44,13 @@ function App() {
   // 3. Datos para BoxPlot (Plotly) - Regla IQR
   const boxPlotData = [
     {
-      y: vehicles.map(d => d.velocity_abs),
+      y: vehicles.map(d => d.box_length),
       type: 'box',
       name: 'Vehículos',
       marker: { color: '#4ade80' }
     },
     {
-      y: pedestrians.map(d => d.velocity_abs),
+      y: pedestrians.map(d => d.box_length),
       type: 'box',
       name: 'Peatones',
       marker: { color: '#f87171' }
@@ -108,7 +108,7 @@ function App() {
 
         {/* 2. BoxPlot */}
         <div style={{ width: '100%', backgroundColor: '#2a2a2a', padding: '1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>2. BoxPlot Velocidad (Outliers / IQR)</h3>
+          <h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>2. BoxPlot Longitud (Outliers / IQR)</h3>
           <Plot
             data={boxPlotData}
             layout={{ 
