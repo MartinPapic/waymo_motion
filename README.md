@@ -83,7 +83,7 @@ Levanta la interfaz gráfica para visualizar las métricas clave del EDA generad
    ```bash
    npm run dev
    ```
-4. Abre tu navegador web en `http://localhost:5173`. Podrás interactuar con los BoxPlots (Plotly), RadarCharts de perfil de clases y la Nube de Puntos Espacial 3D generada por los sensores LiDAR reales del vehículo Waymo.
+4. Abre tu navegador web en `http://localhost:5173`. Podrás interactuar con la Presentación tipo Carousel usando las flechas de tu teclado, analizando el Sesgo en el gráfico de Barras, BoxPlots de tamaño, el Gráfico de Dispersión 2D (Clústers separables), y la impresionante Nube de Puntos Espacial 3D desde la perspectiva del Ego-Vehicle.
 
 ---
 
