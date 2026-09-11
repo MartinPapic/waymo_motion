@@ -1,8 +1,15 @@
-# Environments
-Include/
-Lib/
-Scripts/
-pyvenv.cfg
+# Environments (entorno virtual en la raiz; anclados con / para no chocar
+# con carpetas del proyecto como backend/scripts/ o backend/lib/)
+/Include/
+/Lib/
+/Scripts/
+/bin/
+/lib/
+/include/
+/share/
+/etc/
+/pyvenv.cfg
+/env/
 
 # Python
 __pycache__/
@@ -34,3 +41,6 @@ build/
 Thumbs.db
 
 backend/data/
+
+# Datos crudos de Waymo que deja scripts/descargar_waymo.py (licencia no comercial)
+backend/datos/
