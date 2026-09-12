@@ -116,6 +116,8 @@ function App() {
             <RechartsTooltip
               cursor={{ fill: 'rgba(255,255,255,0.05)' }}
               contentStyle={{ backgroundColor: '#0e1626', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', color: '#e6edf7' }}
+              itemStyle={{ color: '#38bdf8', fontWeight: 600 }}
+              labelStyle={{ color: '#93a4bd' }}
             />
             <Bar dataKey="Detecciones" radius={[8, 8, 0, 0]}>
               {datosBarras.map((fila) => <Cell key={fila.nombre} fill={fila.color} />)}
