@@ -218,14 +218,27 @@ predictivo del dataset.
 
 ### 5.4 Preparación para el modelamiento
 
-| Transformación | Implementación | Justificación |
-|----------------|----------------|---------------|
-| Codificación de categóricas | *One-hot encoding* sobre `object_type` | Los algoritmos requieren entradas numéricas, y una codificación ordinal introduciría un orden inexistente entre las clases |
-| Escalado de numéricas | `StandardScaler` sobre las variables continuas | Las variables tienen escalas dispares; los modelos basados en distancia (KNN, SVM, redes neuronales) quedarían dominados por las de mayor magnitud |
-| Partición train/test | 80/20 **estratificada** por `object_type` | Sin estratificar, con 0,6% de ciclistas el conjunto de prueba podría quedar sin representación de la clase minoritaria |
+| # | Transformación | Implementación | Justificación |
+|---|----------------|----------------|---------------|
+| 1 | Codificación de categóricas | *One-hot encoding* sobre `object_type` | Los algoritmos requieren entradas numéricas, y una codificación ordinal introduciría un orden inexistente entre las clases. No aprende nada de la distribución, por lo que puede aplicarse antes de particionar |
+| 2 | Partición train/test | 80/20 **estratificada** por `object_type` | Sin estratificar, con 0,6% de ciclistas el conjunto de prueba podría quedar sin representación de la clase minoritaria |
+| 3 | Escalado de numéricas | `StandardScaler` ajustado **solo con el conjunto de entrenamiento** | Las variables tienen escalas dispares; los modelos basados en distancia (KNN, SVM, redes neuronales) quedarían dominados por las de mayor magnitud |
 
 Resultado: **1.924.724 registros de entrenamiento** y **481.182 de prueba**, con la proporción de
 clases preservada en ambos conjuntos.
+
+**El orden de estos pasos no es arbitrario.** El `StandardScaler` calcula una media y una desviación
+estándar a partir de los datos. Si se ajustara sobre el dataset completo, esos parámetros
+incorporarían información del conjunto de prueba y la evaluación quedaría contaminada: se estaría
+midiendo el desempeño sobre datos que ya influyeron en el preprocesamiento. Es una forma sutil de
+**fuga de datos**. La regla general —*toda transformación que aprenda de los datos se ajusta solo con
+el entrenamiento*— se aplica aquí y también explica por qué SMOTE opera después de la partición
+(Sección 7.1).
+
+La evidencia queda visible en la salida del notebook: tras el escalado, la media del conjunto de
+entrenamiento es prácticamente cero (−9,92·10⁻¹⁸), mientras que la del conjunto de prueba es
++0,0005. Esa diferencia es exactamente lo que se espera cuando el test se transforma con parámetros
+que no fueron calculados sobre él.
 
 ---
 
