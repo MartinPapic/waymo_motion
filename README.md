@@ -5,6 +5,19 @@
 ## Descripción del Proyecto
 Este proyecto aplica la metodología **CRISP-DM** para la ingesta y análisis exploratorio del *Waymo Open Dataset (Motion / Perception)*. Incluye la orquestación de datos mediante **Kedro** (Arquitectura Medallón), análisis estadístico con detección de sesgos éticos, y un **Dashboard Interactivo en React** para visualizaciones en 3D.
 
+> 📄 **El informe técnico del proyecto está en [INFORME_TECNICO.md](INFORME_TECNICO.md)**: problema de negocio, objetivos, KPIs, fuentes de datos, EDA, metodología CRISP-DM y auditoría ética.
+>
+> Este README es la guía de instalación y ejecución.
+
+### Entregables
+
+| Documento | Contenido |
+|---|---|
+| [INFORME_TECNICO.md](INFORME_TECNICO.md) | Informe técnico completo del proyecto |
+| [backend/notebooks/EP1_Memoria_Waymo_Motion.ipynb](backend/notebooks/EP1_Memoria_Waymo_Motion.ipynb) | Memoria ejecutable: reproduce cada etapa del informe |
+| [backend/src/waymo_backend/](backend/src/waymo_backend/) | Pipeline de datos en Kedro |
+| [frontend/](frontend/) | Dashboard interactivo de presentación |
+
 ---
 
 ## Requisitos Previos (Prerequisites)
@@ -44,16 +57,21 @@ El ecosistema backend se encarga del proceso ETL: Ingesta efímera, eliminación
    ```
    *(El archivo `requirements.txt` incluye explícitamente `kedro`, `pandas`, `pyarrow`, `seaborn` y las librerías de GCP).*
 
-3. **Descargar la muestra de Waymo (Ingesta Cruda):**
-   Vuelve a la raíz del repositorio y ejecuta el script de extracción (modifica `--lote` según los recursos de tu hardware):
-   ```bash
-   python scratch/repo_ref/herramientas/descargar_waymo.py --lote 200
-   ```
-   *Mueve el archivo resultante `detecciones_reales.parquet` a la ruta: `backend/data/01_raw/`.*
-
-4. **Ejecutar el Pipeline de Kedro (Data Preparation):**
+3. **Ejecución rápida, sin credenciales (recomendado para revisar el proyecto):**
+   El repositorio incluye una muestra de 12 segmentos y 103.430 detecciones (4,3 MB), suficiente para correr todo el pipeline al clonar:
    ```bash
    cd backend
+   kedro run --env muestra
+   ```
+
+4. **Descargar el dataset completo (opcional, 2,4 millones de detecciones):**
+   Requiere el login de Google Cloud del paso 1, con una cuenta que haya aceptado la licencia de Waymo.
+   ```bash
+   cd backend
+   python scripts/descargar_waymo.py --lote 200
+   ```
+   *El script deja `detecciones_reales.parquet` en `backend/datos/waymo_real/`. Cópialo a `backend/data/01_raw/` y luego ejecuta el pipeline:*
+   ```bash
    kedro run
    ```
    *Este comando limpia los millones de datos crudos y bifurca el resultado en `clean_waymo_data.parquet` (Capa Intermediate para Machine Learning) y exporta `waymo_frontend.json` (Capa Primary).*
