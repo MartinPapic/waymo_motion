@@ -18,14 +18,6 @@ __pycache__/
 *.so
 
 # Kedro
-data/01_raw/
-data/02_intermediate/
-data/03_primary/
-data/04_feature/
-data/05_model_input/
-data/06_models/
-data/07_model_output/
-data/08_reporting/
 logs/
 .ipython/
 .jupyter/
@@ -40,7 +32,11 @@ build/
 .DS_Store
 Thumbs.db
 
-backend/data/
+backend/data/**
+!backend/data/**/
+# excepto la muestra reproducible: permite correr "kedro run --env muestra"
+# al clonar, sin credenciales de Google Cloud
+!backend/data/01_raw/muestra_detecciones.parquet
 
 # Datos crudos de Waymo que deja scripts/descargar_waymo.py (licencia no comercial)
 backend/datos/

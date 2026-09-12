@@ -1,0 +1,12 @@
+# Entorno "muestra": permite ejecutar el pipeline completo sin credenciales de
+# Google Cloud ni la descarga de 200 segmentos.
+#
+#   kedro run --env muestra
+#
+# Usa el parquet reducido versionado en el repositorio (12 segmentos, 103.430
+# detecciones, 4,3 MB) en lugar del dataset completo de 2,4 millones de filas.
+# Las salidas se escriben en las mismas capas que la corrida normal.
+
+raw_waymo_data:
+  type: pandas.ParquetDataset
+  filepath: data/01_raw/muestra_detecciones.parquet

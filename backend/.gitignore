@@ -15,6 +15,9 @@ data/**
 # except their sub-folders
 !data/**/
 
+# excepto la muestra reproducible versionada en el repositorio
+!data/01_raw/muestra_detecciones.parquet
+
 # also keep all .gitkeep files
 !.gitkeep
 
